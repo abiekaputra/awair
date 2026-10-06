@@ -125,11 +125,12 @@ The image generates the deterministic demo data and model during the build, then
 - [Testing and failure handling](docs/testing.md)
 - [Phase 5 validation record](docs/validation.md)
 - [Mobile product](docs/mobile-product.md)
+- [Native end-to-end validation checklist](docs/native-validation.md)
 - [Security](SECURITY.md)
 
 ## Project status
 
-Phase 5 is complete: the data pipeline, reproducible evaluation, versioned model serving, local database, mobile prediction flow, cached history, error states, and automated backend and mobile tests work together. The repository intentionally has no public deployment. Phase 6 will validate the complete flow across the available native runtimes and formalize the end-to-end evidence. Production use would additionally require validated real sensor data, user identity, monitoring thresholds, authentication, rate limiting, a model approval process, and domain expert review.
+Phase 5 is complete: the data pipeline, reproducible evaluation, versioned model serving, local database, mobile prediction flow, cached history, error states, and automated backend and mobile tests work together. Phase 6 is in progress: the Android Expo Go online flow is verified, while offline presentation and restart persistence still need native-screen confirmation. iOS bundle export passes, but no iOS runtime is available on this workstation. The repository intentionally has no public deployment. Production use would additionally require validated real sensor data, user identity, monitoring thresholds, authentication, rate limiting, a model approval process, and domain expert review.
 
 ## License
 

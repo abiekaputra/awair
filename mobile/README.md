@@ -36,6 +36,17 @@ EXPO_PUBLIC_AWAIR_API_URL=http://127.0.0.1:8000 pnpm start
 
 Open the project with Expo Go, an emulator, or the web preview. Use `http://10.0.2.2:8000` for an Android emulator. A physical device needs the computer's LAN address and must share its network.
 
+For a physical device, expose the backend on the LAN and use the same address in Expo:
+
+```bash
+# repository root
+AWAIR_DATABASE_PATH=runtime/awair.sqlite3 uv run uvicorn awair.api.app:app \
+  --host 0.0.0.0 --port 8010
+
+# mobile/
+EXPO_PUBLIC_AWAIR_API_URL=http://<LAN_IP>:8010 pnpm exec expo start --lan
+```
+
 The backend allows the Expo web origins `http://localhost:8081` and `http://127.0.0.1:8081` by default. Set `AWAIR_CORS_ORIGINS` when the web preview uses another origin.
 
 ## Quality gate
@@ -45,6 +56,8 @@ pnpm run lint
 pnpm run typecheck
 pnpm run test
 pnpm run export:web
+pnpm run export:android
+pnpm run export:ios
 ```
 
 The application has no public deployment. The API base URL is configured at build or start time through `EXPO_PUBLIC_AWAIR_API_URL`.

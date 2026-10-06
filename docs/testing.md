@@ -12,6 +12,8 @@ pnpm run lint
 pnpm run typecheck
 pnpm run test
 pnpm run export:web
+pnpm run export:android
+pnpm run export:ios
 ```
 
 The same commands run in GitHub Actions. Production Python files are limited to 400 lines, other production code to 300 lines, and test files to 1,000 lines.
@@ -32,6 +34,8 @@ The same commands run in GitHub Actions. Production Python files are limited to 
 - mobile API success, server-error, and network-error handling;
 - history-cache deduplication, invalid-cache recovery, and onboarding persistence;
 - result presentation and responsible-use disclaimer rendering.
+
+Expo exports the web, Android, and iOS JavaScript bundles in CI. Bundle export validates route resolution, imports, assets, and platform-specific module availability without claiming that an emulator or physical-device interaction succeeded.
 
 ## Failure boundaries
 

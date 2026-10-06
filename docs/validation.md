@@ -8,7 +8,7 @@ Validated locally on 6 October 2026 without a public deployment.
 - Ruff lint passed;
 - Ruff formatting check passed;
 - 23 backend pytest scenarios passed;
-- 11 mobile Jest scenarios passed across four suites;
+- 13 mobile Jest scenarios passed across five suites, including offline cache and submission behavior;
 - mobile ESLint and TypeScript checks passed;
 - Expo produced all ten static web routes successfully;
 - clean model and database fixtures were used by the integration tests.
@@ -37,6 +37,19 @@ The Expo web target was used as the locally available runtime for the same React
 5. after the API was stopped, history still displayed the cached record with explicit cached-data and connection-error messages;
 6. the about screen displayed the product architecture, active API address, and responsible-use boundary.
 
-Native Android and iOS packaging remain build-target validation for Phase 6 because this workstation does not currently have the Android SDK or full Xcode simulator runtime. The Expo application uses the same TypeScript implementation across native and web targets.
+Android and iOS JavaScript bundle exports passed. This workstation does not have the Android SDK or full Xcode simulator runtime, so native interaction requires Expo Go on a physical device.
 
 The production-dependency audit resolved available `uuid` and `decode-uri-component` fixes through lockfile overrides. Three upstream Expo/React Native tooling advisories remain documented in [the security policy](../SECURITY.md) because the registry has not published the patched versions named by their advisories.
+
+## Phase 6 native validation
+
+Native validation started on 6 October 2026 using an Android device with Expo Go on the same local network. Expo Doctor passed all 21 checks after the required `expo-linking` and `expo-font` peer dependencies were restored.
+
+The Android device loaded the native bundle from `exp://192.168.18.22:8081` and reached the backend at `http://192.168.18.22:8010`. Server and database evidence confirmed this sequence:
+
+1. `POST /predict` returned `200` and persisted record `4c578f48-c5b8-4261-8977-3f0e70d01281`;
+2. the stored result contained AQI `69.93`, category `Moderate`, and model version `20261005T235707Z`;
+3. `GET /predictions` returned the device's history request;
+4. `GET /predictions/{id}` returned the same record to the detail screen.
+
+Offline presentation, restart persistence, and the remaining visual acceptance checks require confirmation from the native screen before Phase 6 is marked complete. iOS interaction remains untested because no iOS runtime is available; its production bundle export succeeds in the automated gate.

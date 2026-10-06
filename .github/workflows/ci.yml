@@ -36,7 +36,10 @@ jobs:
           cache: pnpm
           cache-dependency-path: mobile/pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
+      - run: pnpm exec expo-doctor
       - run: pnpm run lint
       - run: pnpm run typecheck
       - run: pnpm run test
       - run: pnpm run export:web
+      - run: pnpm run export:android
+      - run: pnpm run export:ios
