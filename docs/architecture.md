@@ -13,8 +13,10 @@ flowchart TD
     LR --> Eval
     Eval --> Bundle[(Versioned ModelBundle)]
     Bundle --> Registry[Lazy model registry]
-    Client --> API[FastAPI]
-    API --> Registry
+    Mobile[Future mobile client] --> API[FastAPI contracts]
+    API --> Service[Prediction service]
+    Service --> Registry
+    Service --> History[(SQLite history)]
     API --> Metrics[Prometheus metrics]
     API --> Logs[Structured request logs]
 ```
@@ -23,14 +25,21 @@ flowchart TD
 
 - `awair.data` generates safe demonstration data and validates external training data.
 - `awair.modeling` owns split strategy, estimators, evaluation, and artifact persistence.
-- `awair.api` owns request contracts, model readiness, inference, telemetry, and safe errors.
+- `awair.api` owns HTTP contracts, readiness, telemetry, and safe errors.
+- `awair.predictions` coordinates inference and owns SQLite history persistence.
 - `awair.cli` provides repeatable generation, training, and serving entrypoints.
 
 ## Artifact lifecycle
 
-Training writes one `ModelBundle` with both fitted pipelines and metadata. The API lazily loads it through a thread safe registry. `/health` stays available when the artifact is missing; `/ready` and `/predict` return `503` until a valid artifact can be loaded.
+Training writes one `ModelBundle` with both fitted pipelines and metadata. The API lazily loads it through a thread safe registry. `/health` stays available when a dependency is missing. `/ready` requires both a valid artifact and writable prediction storage; `/predict` returns `503` when either required dependency is unavailable.
 
 The artifact metadata records the dataset SHA-256, chronological split size, training timestamp, model version, dependency versions, and evaluation metrics. This makes a prediction traceable to one training run without storing personal or sensor data in the artifact.
+
+## Prediction lifecycle
+
+The API validates a request before the prediction service loads the model. A successful inference is persisted with its input, output, model version, generated identifier, and UTC timestamp before a response is returned. History endpoints read the same record shape that `POST /predict` returns, giving the Phase 5 mobile client one stable contract.
+
+Clients may provide an `Idempotency-Key`. Repeating the same key and input returns the first record; reusing the key with different input returns `409`. This lets a mobile client retry after a lost response without duplicating history.
 
 ## Failure behavior
 
@@ -38,5 +47,6 @@ The artifact metadata records the dataset SHA-256, chronological split size, tra
 - Target values cannot be missing or negative.
 - Context feature gaps are allowed only up to 10% and are imputed from training medians.
 - A missing or invalid artifact is treated as an availability failure, not an application crash.
+- An unavailable database makes readiness and history-dependent requests return `503`.
 - Unexpected inference failures are logged server side and return a generic response.
 - Every response carries a request ID; latency and status are recorded without request payloads.

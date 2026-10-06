@@ -13,6 +13,9 @@ class PredictionRequest(BaseModel):
 
 
 class PredictionResponse(BaseModel):
+    id: str
+    created_at: str
+    inputs: PredictionRequest
     pollutants: dict[str, float]
     aqi: float
     category: str
@@ -27,3 +30,8 @@ class HealthResponse(BaseModel):
 class ReadinessResponse(BaseModel):
     ready: bool
     model_version: str | None = None
+    database_ready: bool
+
+
+class PredictionHistoryResponse(BaseModel):
+    items: list[PredictionResponse]

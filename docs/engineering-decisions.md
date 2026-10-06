@@ -27,3 +27,15 @@ The process can answer `/health` even when model storage is unavailable. Readine
 ## Metrics without payload logging
 
 Prometheus counters and histograms record volume, latency, status, predictions, and model failures. Structured logs include request ID and route but omit input values, which reduces accidental data exposure when real inputs are introduced.
+
+## SQLite prediction history
+
+SQLite gives the local mobile and API flow durable history without introducing a database server. The repository boundary keeps SQL outside HTTP and inference code, so another relational store can replace it if hosting becomes necessary. The API initializes the small schema on first use and includes database access in readiness.
+
+## Idempotent mobile retries
+
+Prediction writes accept an optional idempotency key. Replaying the same request returns its original record, while different inputs with the same key are rejected. This addresses unreliable mobile connections without hiding conflicting user actions.
+
+## Authentication boundary
+
+Phase 4 is a local single-user backend, so it does not invent an account system before the mobile identity flow exists. Authentication and record ownership must be designed together in Phase 5 before any shared or public environment is considered.

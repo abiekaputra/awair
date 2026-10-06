@@ -5,3 +5,9 @@ services:
       - "8001:8000"
     environment:
       AWAIR_LOG_LEVEL: INFO
+      AWAIR_DATABASE_PATH: /app/runtime/awair.sqlite3
+    volumes:
+      - prediction-history:/app/runtime
+
+volumes:
+  prediction-history:

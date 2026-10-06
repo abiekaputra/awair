@@ -1,6 +1,6 @@
 # AWAIR
 
-AWAIR is a reproducible air quality prediction service. It estimates six pollutant concentrations from weather and operational context, then estimates an Air Quality Index value from those pollutant predictions.
+AWAIR is a reproducible local air quality prediction backend. It estimates six pollutant concentrations from weather and operational context, estimates an Air Quality Index value, and stores prediction history for the mobile product.
 
 This repository is a new personal implementation. It is informed by the machine learning responsibilities I held in the original Bangkit capstone team: preprocessing, feature work, overfitting analysis, linear regression, Random Forest modeling, evaluation, and prediction integration. The original mobile and cloud implementations were produced by their respective team members and are not copied here.
 
@@ -14,7 +14,8 @@ The earlier team prototype stopped before it became a reproducible public projec
 - explicit mean baselines;
 - a versioned model artifact with dataset fingerprint and library versions;
 - input validation, readiness behavior, structured request logs, and Prometheus metrics;
-- automated data, training, artifact, and API tests.
+- durable local prediction history with retry-safe writes;
+- automated data, training, artifact, database, and API tests.
 
 ## Modeling flow
 
@@ -41,11 +42,14 @@ uv run awair-serve
 
 Open the interactive API documentation at `http://127.0.0.1:8000/docs`.
 
+The API creates `runtime/awair.sqlite3` on first use. Set `AWAIR_DATABASE_PATH` to choose another local path.
+
 ### Example request
 
 ```bash
 curl -X POST http://127.0.0.1:8000/predict \
   -H 'Content-Type: application/json' \
+  -H 'Idempotency-Key: mobile-request-001' \
   -d '{
     "temperature_c": 30,
     "humidity_pct": 70,
@@ -81,29 +85,34 @@ uv run pytest
 docker compose up --build
 ```
 
-The image generates the deterministic demo data and model during the build, then serves the API on `http://127.0.0.1:8001`.
+The image generates the deterministic demo data and model during the build, then serves the API on `http://127.0.0.1:8001`. Docker Compose keeps prediction history in a named local volume.
 
 ## Operations
 
 | Endpoint | Meaning |
 | --- | --- |
 | `GET /health` | Process is running; does not require the model |
-| `GET /ready` | A valid model artifact can be loaded |
+| `GET /ready` | Model artifact and prediction database are available |
 | `POST /predict` | Validated pollutant and AQI prediction |
+| `GET /predictions` | Recent prediction history, newest first |
+| `GET /predictions/{id}` | One persisted prediction |
 | `GET /metrics` | Prometheus request, latency, prediction, and model failure metrics |
 
 ## Documentation
 
 - [Architecture](docs/architecture.md)
+- [Product scope and acceptance criteria](docs/product-scope.md)
 - [Data contract](docs/data-contract.md)
 - [Model card](docs/model-card.md)
 - [API contract](docs/api.md)
 - [Engineering decisions](docs/engineering-decisions.md)
+- [Testing and failure handling](docs/testing.md)
+- [Phase 4 validation record](docs/validation.md)
 - [Security](SECURITY.md)
 
 ## Project status
 
-The local inference and evaluation path is implemented and tested. A production deployment would still require validated real sensor data, monitoring thresholds, authentication, rate limiting at the edge, a model approval process, and domain expert review.
+Phase 4 is complete: the data pipeline, reproducible evaluation, versioned model serving, local database, retry-safe prediction history, API contract, observability, and automated integration tests work together. The repository intentionally has no public deployment. The mobile interface remains Phase 5 work. Production use would additionally require validated real sensor data, user identity, monitoring thresholds, authentication, rate limiting, a model approval process, and domain expert review.
 
 ## License
 
