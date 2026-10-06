@@ -5,10 +5,15 @@ from pathlib import Path
 
 def main() -> None:
     violations: list[str] = []
-    for path in Path(".").rglob("*.py"):
-        if any(part.startswith(".") for part in path.parts) or ".venv" in path.parts:
+    code_extensions = {".py", ".js", ".jsx", ".ts", ".tsx"}
+    ignored_directories = {".git", ".venv", "node_modules", "dist", "coverage"}
+    for path in Path(".").rglob("*"):
+        if path.suffix not in code_extensions:
             continue
-        limit = 1_000 if "tests" in path.parts else 400
+        if any(part in ignored_directories or part.startswith(".") for part in path.parts):
+            continue
+        is_test = "tests" in path.parts or "__tests__" in path.parts
+        limit = 1_000 if is_test else (400 if path.suffix == ".py" else 300)
         lines = len(path.read_text().splitlines())
         if lines > limit:
             violations.append(f"{path}: {lines} lines (limit {limit})")

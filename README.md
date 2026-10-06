@@ -1,12 +1,12 @@
 # AWAIR
 
-AWAIR is a reproducible local air quality prediction backend. It estimates six pollutant concentrations from weather and operational context, estimates an Air Quality Index value, and stores prediction history for the mobile product.
+AWAIR is a local end-to-end air quality prediction product. Its Expo mobile client collects weather and activity context, while a FastAPI service estimates six pollutant concentrations and an Air Quality Index value, persists history, and serves results back to the user.
 
 This repository is a new personal implementation. It is informed by the machine learning responsibilities I held in the original Bangkit capstone team: preprocessing, feature work, overfitting analysis, linear regression, Random Forest modeling, evaluation, and prediction integration. The original mobile and cloud implementations were produced by their respective team members and are not copied here.
 
 ## Why it exists
 
-The earlier team prototype stopped before it became a reproducible public project. This edition focuses on the engineering evidence needed to evaluate the ML work:
+The earlier team prototype stopped before it became a reproducible public project. This edition turns the core idea into reproducible engineering evidence:
 
 - a documented data contract;
 - deterministic synthetic data for safe local reproduction;
@@ -16,6 +16,7 @@ The earlier team prototype stopped before it became a reproducible public projec
 - input validation, readiness behavior, structured request logs, and Prometheus metrics;
 - durable local prediction history with retry-safe writes;
 - automated data, training, artifact, database, and API tests.
+- a usable mobile flow with validation, retry-safe requests, history, and offline cache.
 
 ## Modeling flow
 
@@ -43,6 +44,16 @@ uv run awair-serve
 Open the interactive API documentation at `http://127.0.0.1:8000/docs`.
 
 The API creates `runtime/awair.sqlite3` on first use. Set `AWAIR_DATABASE_PATH` to choose another local path.
+
+In another terminal, start the mobile client:
+
+```bash
+cd mobile
+pnpm install
+EXPO_PUBLIC_AWAIR_API_URL=http://127.0.0.1:8000 pnpm start
+```
+
+See the [mobile setup guide](mobile/README.md) for Android emulator and physical-device URLs.
 
 ### Example request
 
@@ -77,6 +88,11 @@ uv run python scripts/check_file_lengths.py
 uv run ruff check .
 uv run ruff format --check .
 uv run pytest
+cd mobile
+pnpm run lint
+pnpm run typecheck
+pnpm run test
+pnpm run export:web
 ```
 
 ## Docker
@@ -107,12 +123,13 @@ The image generates the deterministic demo data and model during the build, then
 - [API contract](docs/api.md)
 - [Engineering decisions](docs/engineering-decisions.md)
 - [Testing and failure handling](docs/testing.md)
-- [Phase 4 validation record](docs/validation.md)
+- [Phase 5 validation record](docs/validation.md)
+- [Mobile product](docs/mobile-product.md)
 - [Security](SECURITY.md)
 
 ## Project status
 
-Phase 4 is complete: the data pipeline, reproducible evaluation, versioned model serving, local database, retry-safe prediction history, API contract, observability, and automated integration tests work together. The repository intentionally has no public deployment. The mobile interface remains Phase 5 work. Production use would additionally require validated real sensor data, user identity, monitoring thresholds, authentication, rate limiting, a model approval process, and domain expert review.
+Phase 5 is complete: the data pipeline, reproducible evaluation, versioned model serving, local database, mobile prediction flow, cached history, error states, and automated backend and mobile tests work together. The repository intentionally has no public deployment. Phase 6 will validate the complete flow across the available native runtimes and formalize the end-to-end evidence. Production use would additionally require validated real sensor data, user identity, monitoring thresholds, authentication, rate limiting, a model approval process, and domain expert review.
 
 ## License
 

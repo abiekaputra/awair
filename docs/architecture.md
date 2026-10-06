@@ -13,7 +13,7 @@ flowchart TD
     LR --> Eval
     Eval --> Bundle[(Versioned ModelBundle)]
     Bundle --> Registry[Lazy model registry]
-    Mobile[Future mobile client] --> API[FastAPI contracts]
+    Mobile[Expo mobile client] --> API[FastAPI contracts]
     API --> Service[Prediction service]
     Service --> Registry
     Service --> History[(SQLite history)]
@@ -28,6 +28,7 @@ flowchart TD
 - `awair.api` owns HTTP contracts, readiness, telemetry, and safe errors.
 - `awair.predictions` coordinates inference and owns SQLite history persistence.
 - `awair.cli` provides repeatable generation, training, and serving entrypoints.
+- `mobile/app` owns navigation and screen composition while `mobile/src` owns API, storage, validation, configuration, and domain types.
 
 ## Artifact lifecycle
 
@@ -40,6 +41,8 @@ The artifact metadata records the dataset SHA-256, chronological split size, tra
 The API validates a request before the prediction service loads the model. A successful inference is persisted with its input, output, model version, generated identifier, and UTC timestamp before a response is returned. History endpoints read the same record shape that `POST /predict` returns, giving the Phase 5 mobile client one stable contract.
 
 Clients may provide an `Idempotency-Key`. Repeating the same key and input returns the first record; reusing the key with different input returns `409`. This lets a mobile client retry after a lost response without duplicating history.
+
+The mobile client caches successful history reads and prediction responses in AsyncStorage. Cache fallback is limited to browsing existing results; new predictions always require the API and model. The configurable API base URL supports a browser preview, simulator, emulator, or physical device on the same local network.
 
 ## Failure behavior
 

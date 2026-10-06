@@ -7,9 +7,14 @@ uv run python scripts/check_file_lengths.py
 uv run ruff check .
 uv run ruff format --check .
 uv run pytest
+cd mobile
+pnpm run lint
+pnpm run typecheck
+pnpm run test
+pnpm run export:web
 ```
 
-The same commands run in GitHub Actions. Production Python files are limited to 400 lines and test files to 1,000 lines.
+The same commands run in GitHub Actions. Production Python files are limited to 400 lines, other production code to 300 lines, and test files to 1,000 lines.
 
 ## Covered behavior
 
@@ -22,6 +27,11 @@ The same commands run in GitHub Actions. Production Python files are limited to 
 - idempotent retries and conflicting key reuse;
 - missing artifact, unavailable database, invalid history limit, and unknown record failures;
 - Prometheus request and prediction metrics.
+- browser-origin CORS behavior for the local Expo web client;
+- mobile input conversion and validation boundaries;
+- mobile API success, server-error, and network-error handling;
+- history-cache deduplication, invalid-cache recovery, and onboarding persistence;
+- result presentation and responsible-use disclaimer rendering.
 
 ## Failure boundaries
 

@@ -3,6 +3,7 @@ from __future__ import annotations
 import logging
 
 from fastapi import FastAPI, Header, HTTPException, Query, Request
+from fastapi.middleware.cors import CORSMiddleware
 
 from awair.api.observability import (
     MODEL_FAILURE_COUNT,
@@ -40,6 +41,12 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.state.predictions = PredictionRepository(resolved_settings.database_path)
     app.state.prediction_service = PredictionService(app.state.registry, app.state.predictions)
     app.add_middleware(RequestTelemetryMiddleware)
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=list(resolved_settings.allowed_origins),
+        allow_methods=["GET", "POST"],
+        allow_headers=["Content-Type", "Idempotency-Key"],
+    )
 
     @app.get("/health", response_model=HealthResponse, tags=["operations"])
     def health() -> HealthResponse:

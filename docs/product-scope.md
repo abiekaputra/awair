@@ -1,19 +1,21 @@
-# Product scope and Phase 4 acceptance criteria
+# Product scope and Phase 5 acceptance criteria
 
 ## Product definition
 
-AWAIR's backend supports a future mobile user who provides current weather and activity context, receives an illustrative AQI and pollutant estimate, and can revisit prior results. The default model uses synthetic data, so the result is engineering evidence rather than health guidance.
+AWAIR supports a mobile user who provides current weather and activity context, receives an illustrative AQI and pollutant estimate, and can revisit prior results. The default model uses synthetic data, so the result is engineering evidence rather than health guidance.
 
-## Phase 4 flow
+## Product flow
 
 ```mermaid
 flowchart LR
-    Input[Validated context] --> API[Local API]
+    User[Mobile user] --> Input[Validated context]
+    Input --> API[Local API]
     API --> Service[Prediction service]
     Service --> Model[Versioned two-stage model]
     Model --> Result[AQI and pollutants]
     Result --> DB[(Prediction history)]
-    DB --> API
+    DB --> Mobile[Result and history screens]
+    Mobile --> Cache[(Device cache)]
 ```
 
 ## Included
@@ -27,10 +29,13 @@ flowchart LR
 - safe failure responses and payload-free request telemetry;
 - automated unit, integration, contract, and failure tests;
 - local Python and Docker Compose workflows.
+- Expo Router mobile navigation and responsive web preview;
+- prediction form, result, history, detail, and about screens;
+- client validation, retry state, request timeout, network status, and cached history;
+- automated mobile validation, API client, storage, and component tests.
 
 ## Deferred
 
-- mobile screens, navigation, offline cache, and user experience belong to Phase 5;
 - authentication and record ownership will follow the mobile identity decision;
 - public hosting and cloud infrastructure are outside the portfolio definition of done;
 - health, regulatory, or emergency use requires real validated data and domain review.
@@ -47,3 +52,6 @@ flowchart LR
 8. Readiness requires both the model artifact and prediction database.
 9. Logs and metrics expose operations without logging prediction payloads.
 10. Formatting, file limits, tests, and CI all pass.
+11. A user can complete prediction, history, and detail flows from the mobile interface.
+12. An unavailable API produces a clear error while previously cached history remains readable.
+13. The application can be opened through Expo Go, an emulator, or a local web preview with a configurable API URL.

@@ -63,3 +63,7 @@ Returns one prediction using the same response schema as `POST /predict`. An unk
 - `500`: inference failed unexpectedly; implementation details remain in server logs.
 
 The service does not log prediction payloads. Production internet exposure requires authentication, transport security, and rate limiting at a trusted edge.
+
+## Local client access
+
+The API accepts browser requests from `http://localhost:8081` and `http://127.0.0.1:8081` by default. Override the comma-separated allowlist with `AWAIR_CORS_ORIGINS`. Native Expo requests do not use browser CORS enforcement, but they still require a reachable `EXPO_PUBLIC_AWAIR_API_URL`.

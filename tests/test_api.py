@@ -71,6 +71,24 @@ def test_metrics_endpoint_exposes_service_counters(trained_artifact: Path, tmp_p
     assert "awair_http_request_duration_seconds" in response.text
 
 
+def test_local_mobile_web_origin_can_call_prediction_api(
+    trained_artifact: Path, tmp_path: Path
+) -> None:
+    client = TestClient(create_app(settings_for_test(tmp_path, trained_artifact)))
+
+    response = client.options(
+        "/predict",
+        headers={
+            "Origin": "http://localhost:8081",
+            "Access-Control-Request-Method": "POST",
+            "Access-Control-Request-Headers": "content-type,idempotency-key",
+        },
+    )
+
+    assert response.status_code == 200
+    assert response.headers["access-control-allow-origin"] == "http://localhost:8081"
+
+
 def test_prediction_is_persisted_and_available_in_history(
     trained_artifact: Path, tmp_path: Path
 ) -> None:
