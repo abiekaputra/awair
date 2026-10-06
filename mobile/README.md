@@ -48,3 +48,7 @@ pnpm run export:web
 ```
 
 The application has no public deployment. The API base URL is configured at build or start time through `EXPO_PUBLIC_AWAIR_API_URL`.
+
+## Visual identity
+
+The running-tree logo is the original AWAIR capstone identity. It came from the team repository in commit `1b88464`, authored by Maula-Falihuddin, and is retained here with attribution. See the repository [notice](../NOTICE.md) for asset provenance.

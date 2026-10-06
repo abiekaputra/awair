@@ -133,4 +133,4 @@ Phase 5 is complete: the data pipeline, reproducible evaluation, versioned model
 
 ## License
 
-[MIT](LICENSE)
+Source code is available under the [MIT License](LICENSE). The original team-owned AWAIR logo is excluded from that license; its provenance is recorded in [NOTICE.md](NOTICE.md).
