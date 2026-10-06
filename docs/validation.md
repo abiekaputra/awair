@@ -52,4 +52,10 @@ The Android device loaded the native bundle from `exp://192.168.18.22:8081` and 
 3. `GET /predictions` returned the device's history request;
 4. `GET /predictions/{id}` returned the same record to the detail screen.
 
-Offline presentation, restart persistence, and the remaining visual acceptance checks require confirmation from the native screen before Phase 6 is marked complete. iOS interaction remains untested because no iOS runtime is available; its production bundle export succeeds in the automated gate.
+The tester then confirmed the remaining native-screen acceptance checks with the backend unavailable:
+
+1. cached history remained visible with the connection state explained;
+2. a new prediction could not be submitted offline;
+3. closing and reopening the application retained both onboarding completion and cached history.
+
+Phase 6 is complete for the Android target. iOS interaction remains untested because no iOS runtime is available; its production bundle export succeeds in the automated gate.

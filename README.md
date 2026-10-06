@@ -130,7 +130,7 @@ The image generates the deterministic demo data and model during the build, then
 
 ## Project status
 
-Phase 5 is complete: the data pipeline, reproducible evaluation, versioned model serving, local database, mobile prediction flow, cached history, error states, and automated backend and mobile tests work together. Phase 6 is in progress: the Android Expo Go online flow is verified, while offline presentation and restart persistence still need native-screen confirmation. iOS bundle export passes, but no iOS runtime is available on this workstation. The repository intentionally has no public deployment. Production use would additionally require validated real sensor data, user identity, monitoring thresholds, authentication, rate limiting, a model approval process, and domain expert review.
+Phases 5 and 6 are complete for the Android target: the data pipeline, reproducible evaluation, versioned model serving, local database, mobile prediction flow, cached history, error states, and automated tests work together. A physical Android device validated the online flow, offline presentation, blocked offline submission, and restart persistence. iOS bundle export passes, but native iOS interaction remains untested because no iOS runtime is available on this workstation. The repository intentionally has no public deployment. Production use would additionally require validated real sensor data, user identity, monitoring thresholds, authentication, rate limiting, a model approval process, and domain expert review.
 
 ## License
 
