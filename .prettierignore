@@ -1,0 +1,14 @@
+.coverage
+.expo/
+.pytest_cache/
+.ruff_cache/
+.venv/
+artifacts/
+data/
+dist/
+node_modules/
+mobile/pnpm-lock.yaml
+runtime/
+uv.lock
+*.py
+*.pyc

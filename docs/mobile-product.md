@@ -19,13 +19,13 @@
 
 ## Routes
 
-| Route | Responsibility |
-| --- | --- |
-| `/onboarding` | First-use explanation and consent to continue |
-| `/(tabs)` | Prediction input, validation, result, and retry |
-| `/(tabs)/history` | Recent API history with device-cache fallback |
-| `/prediction/[id]` | Inputs and outputs for one prediction |
-| `/(tabs)/about` | Architecture, configuration, and product limits |
+| Route              | Responsibility                                  |
+| ------------------ | ----------------------------------------------- |
+| `/onboarding`      | First-use explanation and consent to continue   |
+| `/(tabs)`          | Prediction input, validation, result, and retry |
+| `/(tabs)/history`  | Recent API history with device-cache fallback   |
+| `/prediction/[id]` | Inputs and outputs for one prediction           |
+| `/(tabs)/about`    | Architecture, configuration, and product limits |
 
 ## Local configuration
 

@@ -1,4 +1,8 @@
-import { defaultForm, makeIdempotencyKey, validatePredictionForm } from '@/src/validation/prediction';
+import {
+  defaultForm,
+  makeIdempotencyKey,
+  validatePredictionForm,
+} from '@/src/validation/prediction';
 
 describe('prediction form validation', () => {
   it('converts valid form values into the API contract', () => {

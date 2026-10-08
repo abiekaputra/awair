@@ -34,12 +34,12 @@ The model is educational and uses synthetic data. Its AQI value and category are
 
 These responsive web captures render the same React Native screen tree used by the validated Android application. They are supporting product evidence, not physical-device screenshots.
 
-| Onboarding | Prediction input |
-| --- | --- |
+| Onboarding                                                                   | Prediction input                                                                 |
+| ---------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
 | ![AWAIR onboarding and responsible-use boundary](docs/images/onboarding.jpg) | ![AWAIR environmental and activity input form](docs/images/prediction-input.jpg) |
 
-| Prediction detail | Offline history |
-| --- | --- |
+| Prediction detail                                                                                                   | Offline history                                                                         |
+| ------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
 | ![Persisted prediction with AQI, pollutant estimates, model version, and inputs](docs/images/prediction-detail.jpg) | ![Cached history with explicit API connection failure](docs/images/offline-history.jpg) |
 
 ## Quick start
@@ -101,6 +101,7 @@ uv run ruff check .
 uv run ruff format --check .
 uv run pytest
 cd mobile
+pnpm run format:check
 pnpm run lint
 pnpm run typecheck
 pnpm run test
@@ -117,14 +118,14 @@ The image generates the deterministic demo data and model during the build, then
 
 ## Operations
 
-| Endpoint | Meaning |
-| --- | --- |
-| `GET /health` | Process is running; does not require the model |
-| `GET /ready` | Model artifact and prediction database are available |
-| `POST /predict` | Validated pollutant and AQI prediction |
-| `GET /predictions` | Recent prediction history, newest first |
-| `GET /predictions/{id}` | One persisted prediction |
-| `GET /metrics` | Prometheus request, latency, prediction, and model failure metrics |
+| Endpoint                | Meaning                                                            |
+| ----------------------- | ------------------------------------------------------------------ |
+| `GET /health`           | Process is running; does not require the model                     |
+| `GET /ready`            | Model artifact and prediction database are available               |
+| `POST /predict`         | Validated pollutant and AQI prediction                             |
+| `GET /predictions`      | Recent prediction history, newest first                            |
+| `GET /predictions/{id}` | One persisted prediction                                           |
+| `GET /metrics`          | Prometheus request, latency, prediction, and model failure metrics |
 
 ## Documentation
 

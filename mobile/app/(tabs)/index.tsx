@@ -38,7 +38,8 @@ export default function PredictionScreen() {
     if (isOnline === false) {
       setNotice({
         tone: 'warning',
-        message: 'Perangkat sedang offline. Sambungkan ke jaringan API lokal untuk membuat prediksi.',
+        message:
+          'Perangkat sedang offline. Sambungkan ke jaringan API lokal untuk membuat prediksi.',
       });
       return;
     }
@@ -78,7 +79,8 @@ export default function PredictionScreen() {
   return (
     <Screen
       title="Check the air"
-      description="Masukkan kondisi saat ini untuk mendapatkan estimasi yang dapat disimpan dan ditinjau kembali.">
+      description="Masukkan kondisi saat ini untuk mendapatkan estimasi yang dapat disimpan dan ditinjau kembali."
+    >
       {isOnline === false && (
         <StatusBanner tone="warning" message="Offline — riwayat cache tetap tersedia." />
       )}

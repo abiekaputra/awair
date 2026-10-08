@@ -3,7 +3,13 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { categoryColors, palette } from '@/src/theme';
 import type { Prediction } from '@/src/types';
 
-export function HistoryCard({ prediction, onPress }: { prediction: Prediction; onPress: () => void }) {
+export function HistoryCard({
+  prediction,
+  onPress,
+}: {
+  prediction: Prediction;
+  onPress: () => void;
+}) {
   const color = categoryColors[prediction.category] || palette.primary;
   const timestamp = new Date(prediction.created_at).toLocaleString('id-ID', {
     dateStyle: 'medium',
@@ -15,13 +21,16 @@ export function HistoryCard({ prediction, onPress }: { prediction: Prediction; o
       accessibilityRole="button"
       accessibilityLabel={`Buka prediksi AQI ${prediction.aqi}`}
       onPress={onPress}
-      style={({ pressed }) => [styles.card, pressed && styles.pressed]}>
+      style={({ pressed }) => [styles.card, pressed && styles.pressed]}
+    >
       <View style={[styles.score, { backgroundColor: `${color}18` }]}>
         <Text style={[styles.scoreValue, { color }]}>{Math.round(prediction.aqi)}</Text>
         <Text style={[styles.scoreLabel, { color }]}>AQI</Text>
       </View>
       <View style={styles.body}>
-        <Text style={styles.category} numberOfLines={2}>{prediction.category}</Text>
+        <Text style={styles.category} numberOfLines={2}>
+          {prediction.category}
+        </Text>
         <Text style={styles.timestamp}>{timestamp}</Text>
       </View>
       <Text style={styles.chevron}>›</Text>
@@ -41,7 +50,13 @@ const styles = StyleSheet.create({
     padding: 14,
   },
   pressed: { opacity: 0.75 },
-  score: { width: 62, height: 62, borderRadius: 16, alignItems: 'center', justifyContent: 'center' },
+  score: {
+    width: 62,
+    height: 62,
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   scoreValue: { fontSize: 22, fontWeight: '900' },
   scoreLabel: { fontSize: 10, fontWeight: '800' },
   body: { flex: 1, gap: 5 },

@@ -29,11 +29,14 @@ export function PrimaryButton({
         variant === 'secondary' && styles.secondary,
         inactive && styles.disabled,
         pressed && !inactive && styles.pressed,
-      ]}>
+      ]}
+    >
       {loading ? (
         <ActivityIndicator color={palette.surface} />
       ) : (
-        <Text style={[styles.label, variant === 'secondary' && styles.secondaryLabel]}>{label}</Text>
+        <Text style={[styles.label, variant === 'secondary' && styles.secondaryLabel]}>
+          {label}
+        </Text>
       )}
     </Pressable>
   );

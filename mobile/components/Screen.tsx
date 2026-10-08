@@ -28,9 +28,14 @@ export function Screen({
         keyboardShouldPersistTaps="handled"
         refreshControl={
           onRefresh ? (
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={palette.primary} />
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              tintColor={palette.primary}
+            />
           ) : undefined
-        }>
+        }
+      >
         <View style={styles.topbar}>
           <BrandMark />
           {action}

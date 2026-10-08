@@ -16,9 +16,15 @@ export default function TabLayout() {
         headerShown: false,
         tabBarActiveTintColor: palette.primary,
         tabBarInactiveTintColor: palette.muted,
-        tabBarStyle: { height: 66, paddingTop: 7, paddingBottom: 8, borderTopColor: palette.border },
+        tabBarStyle: {
+          height: 66,
+          paddingTop: 7,
+          paddingBottom: 8,
+          borderTopColor: palette.border,
+        },
         tabBarLabelStyle: { fontWeight: '700', fontSize: 11 },
-      }}>
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{

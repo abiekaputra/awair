@@ -15,7 +15,8 @@ export default function AboutScreen() {
   return (
     <Screen
       title="About AWAIR"
-      description="An end-to-end mobile and machine learning portfolio product.">
+      description="An end-to-end mobile and machine learning portfolio product."
+    >
       <View style={styles.heroCard}>
         <Text style={styles.quote}>“Useful evidence starts with honest limits.”</Text>
         <Text style={styles.body}>
@@ -27,7 +28,9 @@ export default function AboutScreen() {
         {facts.map(([label, value]) => (
           <View key={label} style={styles.fact}>
             <Text style={styles.label}>{label}</Text>
-            <Text style={styles.value} selectable>{value}</Text>
+            <Text style={styles.value} selectable>
+              {value}
+            </Text>
           </View>
         ))}
       </View>
@@ -51,9 +54,22 @@ const styles = StyleSheet.create({
   heroCard: { backgroundColor: palette.primaryDark, borderRadius: 22, padding: 22, gap: 12 },
   quote: { color: palette.accent, fontSize: 22, lineHeight: 29, fontWeight: '800' },
   body: { color: palette.muted, fontSize: 14, lineHeight: 22 },
-  card: { backgroundColor: palette.surface, borderRadius: 22, borderWidth: 1, borderColor: palette.border, padding: 20, gap: 16 },
+  card: {
+    backgroundColor: palette.surface,
+    borderRadius: 22,
+    borderWidth: 1,
+    borderColor: palette.border,
+    padding: 20,
+    gap: 16,
+  },
   fact: { gap: 4, paddingBottom: 12, borderBottomWidth: 1, borderBottomColor: palette.border },
-  label: { color: palette.muted, fontSize: 11, fontWeight: '800', textTransform: 'uppercase', letterSpacing: 1 },
+  label: {
+    color: palette.muted,
+    fontSize: 11,
+    fontWeight: '800',
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+  },
   value: { color: palette.ink, fontSize: 14, lineHeight: 20, fontWeight: '700' },
   sectionTitle: { color: palette.ink, fontSize: 17, fontWeight: '800' },
   version: { color: palette.muted, fontSize: 12, textAlign: 'center' },

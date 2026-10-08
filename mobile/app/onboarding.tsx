@@ -10,7 +10,10 @@ import { palette } from '@/src/theme';
 const steps = [
   ['Masukkan kondisi', 'Isi cuaca, jam, lalu lintas, dan aktivitas industri di sekitar Anda.'],
   ['Lihat estimasi', 'AWAIR menampilkan estimasi AQI dan enam polutan dari model lokal.'],
-  ['Buka kembali', 'Hasil tersimpan di backend dan dicache agar riwayat tetap dapat dibaca offline.'],
+  [
+    'Buka kembali',
+    'Hasil tersimpan di backend dan dicache agar riwayat tetap dapat dibaca offline.',
+  ],
 ];
 
 export default function OnboardingScreen() {
@@ -27,13 +30,16 @@ export default function OnboardingScreen() {
           <Text style={styles.eyebrow}>LOCAL AIR QUALITY COMPANION</Text>
           <Text style={styles.title}>Understand the air around you.</Text>
           <Text style={styles.description}>
-            AWAIR menghubungkan aplikasi mobile dengan pipeline machine learning melalui API lokal yang dapat diuji.
+            AWAIR menghubungkan aplikasi mobile dengan pipeline machine learning melalui API lokal
+            yang dapat diuji.
           </Text>
         </View>
         <View style={styles.steps}>
           {steps.map(([title, body], index) => (
             <View key={title} style={styles.step}>
-              <View style={styles.number}><Text style={styles.numberText}>{index + 1}</Text></View>
+              <View style={styles.number}>
+                <Text style={styles.numberText}>{index + 1}</Text>
+              </View>
               <View style={styles.stepCopy}>
                 <Text style={styles.stepTitle}>{title}</Text>
                 <Text style={styles.stepBody}>{body}</Text>
@@ -59,7 +65,14 @@ const styles = StyleSheet.create({
   description: { color: palette.muted, fontSize: 16, lineHeight: 24, maxWidth: 560 },
   steps: { gap: 18 },
   step: { flexDirection: 'row', gap: 14, alignItems: 'flex-start' },
-  number: { width: 32, height: 32, borderRadius: 10, backgroundColor: palette.accent, alignItems: 'center', justifyContent: 'center' },
+  number: {
+    width: 32,
+    height: 32,
+    borderRadius: 10,
+    backgroundColor: palette.accent,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   numberText: { color: palette.primaryDark, fontWeight: '900' },
   stepCopy: { flex: 1, gap: 3 },
   stepTitle: { color: palette.ink, fontSize: 15, fontWeight: '800' },

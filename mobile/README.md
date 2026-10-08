@@ -52,6 +52,7 @@ The backend allows the Expo web origins `http://localhost:8081` and `http://127.
 ## Quality gate
 
 ```bash
+pnpm run format:check
 pnpm run lint
 pnpm run typecheck
 pnpm run test

@@ -40,14 +40,18 @@ export default function PredictionDetailScreen() {
         setPrediction(result);
         await cachePrediction(result);
       } catch (error) {
-        if (!cached) setMessage(error instanceof ApiError ? error.message : 'Detail tidak dapat dimuat.');
+        if (!cached)
+          setMessage(error instanceof ApiError ? error.message : 'Detail tidak dapat dimuat.');
       }
     };
     load();
   }, [id, isOnline]);
 
   return (
-    <Screen title="Prediction detail" description="Input, output, dan versi model untuk satu prediksi.">
+    <Screen
+      title="Prediction detail"
+      description="Input, output, dan versi model untuk satu prediksi."
+    >
       {message && <StatusBanner tone="danger" message={message} />}
       {!prediction ? (
         <ActivityIndicator style={styles.loading} color={palette.primary} size="large" />
@@ -72,7 +76,14 @@ export default function PredictionDetailScreen() {
 
 const styles = StyleSheet.create({
   loading: { marginTop: 80 },
-  card: { backgroundColor: palette.surface, borderRadius: 22, borderWidth: 1, borderColor: palette.border, padding: 20, gap: 12 },
+  card: {
+    backgroundColor: palette.surface,
+    borderRadius: 22,
+    borderWidth: 1,
+    borderColor: palette.border,
+    padding: 20,
+    gap: 12,
+  },
   sectionTitle: { color: palette.ink, fontSize: 16, fontWeight: '800', marginBottom: 4 },
   row: { flexDirection: 'row', justifyContent: 'space-between', gap: 20 },
   label: { color: palette.muted, fontSize: 13 },

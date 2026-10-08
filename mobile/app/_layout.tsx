@@ -15,7 +15,8 @@ export default function RootLayout() {
           headerTintColor: palette.ink,
           headerShadowVisible: false,
           contentStyle: { backgroundColor: palette.canvas },
-        }}>
+        }}
+      >
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="onboarding" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />

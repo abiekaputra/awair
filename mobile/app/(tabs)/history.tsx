@@ -20,36 +20,44 @@ export default function HistoryScreen() {
   const [message, setMessage] = useState<string | null>(null);
   const [fromCache, setFromCache] = useState(false);
 
-  const load = useCallback(async (refresh = false) => {
-    if (refresh) setRefreshing(true);
-    else setLoading(true);
-    setMessage(null);
-    try {
-      const cached = await readCachedHistory();
-      setRecords(cached);
-      setFromCache(true);
-      if (isOnline === true) {
-        const response = await getPredictions();
-        setRecords(response.items);
-        setFromCache(false);
-        await writeCachedHistory(response.items);
+  const load = useCallback(
+    async (refresh = false) => {
+      if (refresh) setRefreshing(true);
+      else setLoading(true);
+      setMessage(null);
+      try {
+        const cached = await readCachedHistory();
+        setRecords(cached);
+        setFromCache(true);
+        if (isOnline === true) {
+          const response = await getPredictions();
+          setRecords(response.items);
+          setFromCache(false);
+          await writeCachedHistory(response.items);
+        }
+      } catch (error) {
+        setMessage(error instanceof ApiError ? error.message : 'Riwayat tidak dapat dimuat.');
+      } finally {
+        setLoading(false);
+        setRefreshing(false);
       }
-    } catch (error) {
-      setMessage(error instanceof ApiError ? error.message : 'Riwayat tidak dapat dimuat.');
-    } finally {
-      setLoading(false);
-      setRefreshing(false);
-    }
-  }, [isOnline]);
+    },
+    [isOnline],
+  );
 
-  useFocusEffect(useCallback(() => { load(); }, [load]));
+  useFocusEffect(
+    useCallback(() => {
+      load();
+    }, [load]),
+  );
 
   return (
     <Screen
       title="Prediction history"
       description="Hasil terbaru dari backend lokal, dengan cache untuk akses saat koneksi terputus."
       refreshing={refreshing}
-      onRefresh={() => load(true)}>
+      onRefresh={() => load(true)}
+    >
       {fromCache && records.length > 0 && (
         <StatusBanner tone="warning" message="Menampilkan riwayat yang tersimpan di perangkat." />
       )}
@@ -72,7 +80,9 @@ export default function HistoryScreen() {
             <HistoryCard
               key={record.id}
               prediction={record}
-              onPress={() => router.push({ pathname: '/prediction/[id]', params: { id: record.id } })}
+              onPress={() =>
+                router.push({ pathname: '/prediction/[id]', params: { id: record.id } })
+              }
             />
           ))}
         </View>
