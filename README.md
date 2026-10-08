@@ -30,6 +30,18 @@ flowchart LR
 
 The model is educational and uses synthetic data. Its AQI value and category are not an official health advisory and must not be used for medical, regulatory, or emergency decisions.
 
+## Product preview
+
+These responsive web captures render the same React Native screen tree used by the validated Android application. They are supporting product evidence, not physical-device screenshots.
+
+| Onboarding | Prediction input |
+| --- | --- |
+| ![AWAIR onboarding and responsible-use boundary](docs/images/onboarding.jpg) | ![AWAIR environmental and activity input form](docs/images/prediction-input.jpg) |
+
+| Prediction detail | Offline history |
+| --- | --- |
+| ![Persisted prediction with AQI, pollutant estimates, model version, and inputs](docs/images/prediction-detail.jpg) | ![Cached history with explicit API connection failure](docs/images/offline-history.jpg) |
+
 ## Quick start
 
 Requirements: Python 3.11–3.13 and [uv](https://docs.astral.sh/uv/).
